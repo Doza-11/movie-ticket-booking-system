@@ -12,6 +12,6 @@ import requests.MovieRequest;
 public class MovieController {
     @PostMapping("/addNew")
     public ResponseEntity<String> addNewMovie(@RequestBody MovieRequest movieRequest) {
-
+gsgsgs
     }
 }
