@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import requests.ShowRequest;
+import requests.ShowSeatRequest;
 import services.ShowService;
 
 @RestController
@@ -23,6 +24,17 @@ public class ShowController {
             String result = showService.addShow(showRequest);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/associateSeats")
+    public ResponseEntity<String> associateSeats(@RequestBody ShowSeatRequest showSeatRequest) {
+        try{
+            String result = showService.associateSeat(showSeatRequest);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        }
+        catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
