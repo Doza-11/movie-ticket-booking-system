@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import requests.TheaterRequest;
+import requests.TheaterSeatRequest;
 import services.TheaterService;
 
 @RestController
@@ -21,6 +22,16 @@ public class TheaterController {
     public ResponseEntity<String> addTheater(@RequestBody TheaterRequest request) {
         try {
             String result = theaterService.addTheater(request);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/addTheaterSeats")
+    public ResponseEntity<String> addSeats(@RequestBody TheaterSeatRequest theaterSeatRequest) {
+        try{
+            String result = theaterService.addTheaterSeats(theaterSeatRequest);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

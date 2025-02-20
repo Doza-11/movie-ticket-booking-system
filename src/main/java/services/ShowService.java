@@ -59,7 +59,7 @@ public class ShowService {
         return "Show has been added Successfully";
     }
 
-    public String associateSeat(ShowSeatRequest showSeatRequest){
+    public String associateSeat(ShowSeatRequest showSeatRequest) throws ShowDoesNotExists {
 
         Optional<Show> showOpt = showRepository.findById(showSeatRequest.getShowId());
         if(showOpt.isEmpty())
