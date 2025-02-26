@@ -24,4 +24,15 @@ public class TicketController {
          return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
      }
     }
+
+    @GetMapping("/cancel/{ticket_id}")
+    private ResponseEntity<Object> cancelTicket(@PathVariable Integer ticket_id){
+        try{
+            String result = ticketService.cancelTicket(ticket_id);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

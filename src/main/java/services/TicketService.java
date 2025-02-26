@@ -7,6 +7,7 @@ import entities.Ticket;
 import entities.User;
 import exceptions.SeatsNotAvailable;
 import exceptions.ShowDoesNotExists;
+import exceptions.TicketIdIsInvalid;
 import exceptions.UserDoesNotExists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,30 @@ public class TicketService {
         showRepository.save(show);
 
         return TicketConvertor.returnTicket(show, ticket);
+    }
+
+    public String cancelTicket(Integer ticket_id){
+        Optional<Ticket> ticketOpt = ticketRepository.findById(ticket_id);
+        if(ticketOpt.isEmpty())
+        {
+            throw new TicketIdIsInvalid();
+        }
+        Ticket ticket = ticketOpt.get();
+        Show show = ticket.getShow();
+
+        List<ShowSeat> showSeatList = show.getShowSeatList();
+        String[] seats = ticket.getBookedSeats().split(",");
+
+        for (int i = 0; i < seats.length; i++) {
+            for (int j = 0; j < showSeatList.size(); j++) {
+                if (showSeatList.get(j).getSeatNo().equals(seats[i])) {
+                    showSeatList.get(j).setIsAvailable(Boolean.TRUE);
+                }
+            }
+        }
+        ticketRepository.delete(ticket);
+
+        return "Ticket cancelled successfully";
     }
 
     private Boolean isSeatAvailable(List<ShowSeat> showSeatList, List<String> requestSeats){
