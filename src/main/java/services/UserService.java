@@ -16,18 +16,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    public String addUser(UserRequest userRequest) {
-        Optional<User> users = userRepository.findByEmailId(userRequest.getEmailId());
-        if (users.isPresent()) {
+    public String addNewUser(UserRequest userRequest) {
+        User userOpt = userRepository.findByEmailId(userRequest.getEmailId());
+        if (userOpt.getEmailId() != null) {
             throw new UserAlreadyExists();
         }
 
-        User user = UserConvertor.userDtoToUser(userRequest, passwordEncoder.encode("1234"));
+        User user = UserConvertor.userDtoToUser(userRequest);
         userRepository.save(user);
 
         return "User created successfully";
     }
+
 }

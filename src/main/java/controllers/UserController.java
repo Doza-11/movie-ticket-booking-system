@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/addNew")
     public ResponseEntity<String> addNewUser(@RequestBody UserRequest userRequest) {
         try {
-            String result = UserService.addUser(userRequest);
+            String result = UserService.addNewUser(userRequest);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

@@ -5,7 +5,7 @@ import requests.UserRequest;
 import response.UserResponse;
 
 public class UserConvertor {
-    public static User userDtoTouser(UserRequest userRequest, String password) {
+    public static User userDtoToUser(UserRequest userRequest) {
         User user = User.builder()
                 .name(userRequest.getName())
                 .age(userRequest.getAge())
@@ -14,7 +14,6 @@ public class UserConvertor {
                 .mobileNo(userRequest.getMobileNo())
                 .emailId(userRequest.getEmailId())
                 .roles(userRequest.getRoles())
-                .password(password)
                 .build();
 
         return user;
