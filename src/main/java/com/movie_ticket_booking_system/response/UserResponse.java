@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserResponse {
+    private Integer userId;
     private String name;
     private Integer age;
     private String address;

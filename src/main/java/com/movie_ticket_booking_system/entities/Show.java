@@ -37,11 +37,11 @@ public class Show {
     private Date date;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "theater_id", nullable = false)
     private Theater theater;
 
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)

@@ -1,5 +1,6 @@
 package com.movie_ticket_booking_system.repositories;
 
+import com.movie_ticket_booking_system.entities.Theater;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,6 @@ public interface ShowRepository extends JpaRepository<Show, Integer> {
 
     @Query(value = "select * from shows where movie_id = :movieId" , nativeQuery = true)
     public List<Show> getAllShowsOfMovie(@Param("movieId")Integer movieId);
+
+    List<Show> findByTheater(Theater theater);
 }

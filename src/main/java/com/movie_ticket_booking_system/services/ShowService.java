@@ -7,6 +7,7 @@ import com.movie_ticket_booking_system.enums.SeatType;
 import com.movie_ticket_booking_system.exceptions.MovieDoesNotExists;
 import com.movie_ticket_booking_system.exceptions.ShowDoesNotExists;
 import com.movie_ticket_booking_system.exceptions.TheaterDoesNotExists;
+import com.movie_ticket_booking_system.response.ShowResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.movie_ticket_booking_system.repositories.MovieRepository;
@@ -15,8 +16,10 @@ import com.movie_ticket_booking_system.repositories.TheaterRepository;
 import com.movie_ticket_booking_system.requests.ShowRequest;
 import com.movie_ticket_booking_system.requests.ShowSeatRequest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShowService {
@@ -96,4 +99,23 @@ public class ShowService {
         return "Show has been associated to the seat Successfully";
     }
 
+    public List<ShowResponse> getShowsByTheaterName(String theaterName) {
+        Optional<Theater> theaterOpt = theaterRepository.findByName(theaterName);
+
+        if(theaterOpt.isEmpty())
+        {
+            throw new TheaterDoesNotExists();
+        }
+
+        Theater theater = theaterOpt.get();
+        List<Show> shows = showRepository.findByTheater(theater);
+
+        if (shows.isEmpty()) {
+            throw new ShowDoesNotExists();
+        }
+
+        return shows.stream()
+                .map(ShowConvertor::showToShowResponse)
+                .collect(Collectors.toList());
+    }
 }

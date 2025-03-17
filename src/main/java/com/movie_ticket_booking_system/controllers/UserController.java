@@ -1,6 +1,8 @@
 package com.movie_ticket_booking_system.controllers;
 
+import com.movie_ticket_booking_system.convertor.UserConvertor;
 import com.movie_ticket_booking_system.entities.User;
+import com.movie_ticket_booking_system.response.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import com.movie_ticket_booking_system.requests.UserRequest;
 import com.movie_ticket_booking_system.services.UserService;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -28,14 +32,18 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         try{
-            List<User> users = userService.getAllUsers();
-            return new ResponseEntity<>(users , HttpStatus.OK);
+            UserConvertor userConvertor = new UserConvertor();
+            List<UserResponse> users = userService.getAllUsers()
+                    .stream()
+                    .map(UserConvertor::userToUserResponse) // Correct conversion method
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(users, HttpStatus.OK);
         }
         catch (Exception e){
-            return new ResponseEntity<>(null , HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
         }
     }
-
 }
