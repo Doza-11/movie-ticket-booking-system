@@ -11,5 +11,6 @@ public class UserRequest {
     private Gender gender;
     private String mobileNo;
     private String emailId;
+    private String password;
     private String roles;
 }

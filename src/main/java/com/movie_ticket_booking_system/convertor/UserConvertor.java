@@ -4,8 +4,11 @@ import com.movie_ticket_booking_system.entities.User;
 import com.movie_ticket_booking_system.enums.Gender;
 import com.movie_ticket_booking_system.requests.UserRequest;
 import com.movie_ticket_booking_system.response.UserResponse;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserConvertor {
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public static User userDtoToUser(UserRequest userRequest) {
         User user = User.builder()
                 .name(userRequest.getName())
@@ -14,6 +17,7 @@ public class UserConvertor {
                 .gender(userRequest.getGender())
                 .mobileNo(userRequest.getMobileNo())
                 .emailId(userRequest.getEmailId())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .roles(userRequest.getRoles())
                 .build();
 
