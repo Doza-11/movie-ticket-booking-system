@@ -19,4 +19,5 @@ public class ShowResponse {
     private Time time;
     private Date date;
     private String movieName;
+    private String theaterName;
 }

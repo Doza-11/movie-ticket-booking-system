@@ -118,4 +118,24 @@ public class ShowService {
                 .map(ShowConvertor::showToShowResponse)
                 .collect(Collectors.toList());
     }
+
+    public List<ShowResponse> getShowsByMovieName(String movieName) throws MovieDoesNotExists {
+        Optional<Movie> movieOpt = movieRepository.findByMovieName(movieName);
+
+        if(movieOpt.isEmpty())
+        {
+            throw new MovieDoesNotExists();
+        }
+
+        Movie movie = movieOpt.get();
+        List<Show> shows = showRepository.findByMovie(movie);
+
+        if (shows.isEmpty()) {
+            throw new ShowDoesNotExists();
+        }
+
+        return shows.stream()
+                .map(ShowConvertor::showToShowResponse)
+                .collect(Collectors.toList());
+    }
 }

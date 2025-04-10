@@ -24,6 +24,7 @@ public class ShowConvertor {
                 .time(show.getTime())
                 .date(show.getDate())
                 .movieName(show.getMovie().getMovieName())
+                .theaterName(show.getTheater().getName())
                 .build();
 
         return showResponse;

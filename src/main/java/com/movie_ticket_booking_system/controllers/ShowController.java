@@ -43,10 +43,30 @@ public class ShowController {
         }
     }
 
-    @GetMapping("/allshow/{theaterName}")
-    public ResponseEntity<List<ShowResponse>> getShowsByTheaterName(@PathVariable String theaterName) {
+    @GetMapping("/allshow")
+    public ResponseEntity<?> getShows(@RequestParam(required = false) String theaterName,
+                                      @RequestParam(required = false) String movieName) {
+        if (theaterName != null) {
+            return getShowsByTheaterName(theaterName);
+        } else if (movieName != null) {
+            return getShowsByMovieName(movieName);
+        } else {
+            return ResponseEntity.badRequest().body("Please provide either theaterName or movieName");
+        }
+    }
+
+    private ResponseEntity<List<ShowResponse>> getShowsByTheaterName(@PathVariable String theaterName) {
         try {
             List<ShowResponse> shows = showService.getShowsByTheaterName(theaterName);
+            return new ResponseEntity<>(shows, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private ResponseEntity<List<ShowResponse>> getShowsByMovieName(@PathVariable String movieName) {
+        try {
+            List<ShowResponse> shows = showService.getShowsByMovieName(movieName);
             return new ResponseEntity<>(shows, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND);

@@ -16,7 +16,7 @@ public class MovieService {
     private MovieRepository movieRepository;
 
     public String addMovie(MovieRequest movieRequest) {
-        Movie movieByName = movieRepository.findByMovieName(movieRequest.getMovieName());
+        Movie movieByName = movieRepository.findMovieByMovieName(movieRequest.getMovieName());
 
         if (movieByName != null && movieByName.getLanguage().equals(movieRequest.getLanguage())) {
             throw new MovieAlreadyExist();
